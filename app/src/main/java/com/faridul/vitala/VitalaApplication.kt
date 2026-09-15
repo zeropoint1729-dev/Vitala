@@ -8,6 +8,7 @@ import com.faridul.vitala.data.repository.TipRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 
 class VitalaApplication : Application() {
     val applicationScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
@@ -16,4 +17,9 @@ class VitalaApplication : Application() {
     val diseaseRepository by lazy { DiseaseRepository(database.diseaseDao()) }
     val newsRepository by lazy { NewsRepository(database.newsArticleDao()) }
     val tipRepository by lazy { TipRepository(database.dailyTipDao()) }
+
+    override fun onCreate() {
+        super.onCreate()
+        applicationScope.launch { newsRepository.refresh() }
+    }
 }

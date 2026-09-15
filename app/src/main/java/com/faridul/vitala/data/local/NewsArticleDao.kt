@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import com.faridul.vitala.data.model.NewsArticle
 import kotlinx.coroutines.flow.Flow
 
@@ -17,4 +18,13 @@ interface NewsArticleDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(articles: List<NewsArticle>)
+
+    @Query("DELETE FROM news_articles")
+    suspend fun clearAll()
+
+    @Transaction
+    suspend fun replaceAll(articles: List<NewsArticle>) {
+        clearAll()
+        insertAll(articles)
+    }
 }
