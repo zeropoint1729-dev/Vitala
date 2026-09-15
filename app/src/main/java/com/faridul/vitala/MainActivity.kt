@@ -20,12 +20,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.faridul.vitala.ui.home.HomeScreen
+import com.faridul.vitala.ui.library.DiseaseDetailScreen
 import com.faridul.vitala.ui.library.DiseaseListScreen
+import com.faridul.vitala.ui.news.ArticleDetailScreen
 import com.faridul.vitala.ui.news.NewsListScreen
 import com.faridul.vitala.ui.theme.VitalaTheme
 import com.faridul.vitala.ui.tips.TipsHistoryScreen
@@ -92,7 +96,25 @@ fun VitalaNavHost() {
         ) {
             composable("home") { HomeScreen(navController) }
             composable("news") { NewsListScreen(navController) }
+            composable(
+                route = "news/{articleId}",
+                arguments = listOf(navArgument("articleId") { type = NavType.StringType })
+            ) { backStackEntry ->
+                val articleId = backStackEntry.arguments?.getString("articleId")
+                if (articleId != null) {
+                    ArticleDetailScreen(navController, articleId)
+                }
+            }
             composable("library") { DiseaseListScreen(navController) }
+            composable(
+                route = "library/{diseaseId}",
+                arguments = listOf(navArgument("diseaseId") { type = NavType.StringType })
+            ) { backStackEntry ->
+                val diseaseId = backStackEntry.arguments?.getString("diseaseId")
+                if (diseaseId != null) {
+                    DiseaseDetailScreen(navController, diseaseId)
+                }
+            }
             composable("tips") { TipsHistoryScreen(navController) }
         }
     }

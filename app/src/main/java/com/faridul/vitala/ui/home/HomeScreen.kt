@@ -1,6 +1,7 @@
 package com.faridul.vitala.ui.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -77,7 +78,7 @@ fun HomeScreen(navController: NavController) {
         )
         Spacer(Modifier.height(8.dp))
         news.forEach { article ->
-            NewsPreviewRow(article)
+            NewsPreviewRow(article, onClick = { navController.navigate("news/${article.id}") })
             Spacer(Modifier.height(8.dp))
         }
         Spacer(Modifier.height(12.dp))
@@ -90,7 +91,11 @@ fun HomeScreen(navController: NavController) {
         Spacer(Modifier.height(8.dp))
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             diseases.forEach { disease ->
-                DiseaseChip(disease, modifier = Modifier.weight(1f))
+                DiseaseChip(
+                    disease = disease,
+                    modifier = Modifier.weight(1f),
+                    onClick = { navController.navigate("library/${disease.id}") }
+                )
             }
         }
         Spacer(Modifier.height(24.dp))
@@ -182,12 +187,14 @@ private fun TipCard(tip: DailyTip?) {
 }
 
 @Composable
-private fun NewsPreviewRow(article: NewsArticle) {
+private fun NewsPreviewRow(article: NewsArticle, onClick: () -> Unit) {
     val isJournal = article.category == "journal"
     val accent = if (isJournal) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary
 
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
@@ -219,11 +226,12 @@ private fun NewsPreviewRow(article: NewsArticle) {
 }
 
 @Composable
-private fun DiseaseChip(disease: Disease, modifier: Modifier = Modifier) {
+private fun DiseaseChip(disease: Disease, modifier: Modifier = Modifier, onClick: () -> Unit) {
     Row(
         modifier = modifier
             .clip(RoundedCornerShape(12.dp))
             .background(MaterialTheme.colorScheme.surface)
+            .clickable(onClick = onClick)
             .padding(10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
