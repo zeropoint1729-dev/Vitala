@@ -9,8 +9,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.faridul.vitala.data.model.DailyTip
 import com.faridul.vitala.data.model.Disease
 import com.faridul.vitala.data.model.NewsArticle
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import com.faridul.vitala.util.LocaleUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -51,21 +50,13 @@ abstract class AppDatabase : RoomDatabase() {
             super.onCreate(db)
             val instance = INSTANCE ?: return
             scope.launch {
-                instance.diseaseDao().insertAll(loadDiseasesFromAssets(context))
+                val languageTag = LocaleUtils.currentLanguageTag(context)
+                instance.diseaseDao().insertAll(DiseaseAssetLoader.loadForLanguage(context, languageTag))
                 instance.newsArticleDao().insertAll(seedNews)
                 instance.dailyTipDao().insertAll(seedTips)
             }
         }
     }
-}
-
-// The disease library reads from app/src/main/assets/diseases.json — edit or
-// extend that file to grow the dataset; nothing about a disease is hardcoded
-// here anymore.
-private fun loadDiseasesFromAssets(context: Context): List<Disease> {
-    val json = context.assets.open("diseases.json").bufferedReader().use { it.readText() }
-    val listType = object : TypeToken<List<Disease>>() {}.type
-    return Gson().fromJson(json, listType)
 }
 
 private val seedNews = listOf(

@@ -180,5 +180,135 @@
     ],
     "treatment": "Managed with pain relief medication, physical therapy, weight management, and in severe cases, joint replacement surgery.",
     "sourceCitation": "World Health Organization, Osteoarthritis fact sheet"
+  },
+  {
+    "id": "malaria",
+    "name": "Malaria",
+    "category": "infectious",
+    "overview": "A mosquito-borne disease caused by Plasmodium parasites, transmitted through the bite of infected Anopheles mosquitoes, common in parts of South Asia including India and Nepal.",
+    "symptoms": [
+      "Fever with chills and sweating",
+      "Headache and body aches",
+      "Fatigue and nausea"
+    ],
+    "treatment": "Treated with a prescribed course of antimalarial medication specific to the parasite species. Early diagnosis and treatment are essential to prevent severe complications.",
+    "sourceCitation": "World Health Organization, Malaria fact sheet"
+  },
+  {
+    "id": "rabies",
+    "name": "Rabies",
+    "category": "infectious",
+    "overview": "An almost always fatal viral infection of the nervous system, transmitted through the bite or scratch of an infected animal, most often dogs. South Asia, particularly India, carries a significant share of the global rabies burden.",
+    "symptoms": [
+      "Fever and tingling at the bite site",
+      "Anxiety, confusion, or agitation as the disease progresses",
+      "Difficulty swallowing and muscle spasms in later stages"
+    ],
+    "treatment": "Immediate wound washing with soap and water followed by urgent post-exposure prophylaxis (vaccine, and immunoglobulin if indicated) at a medical facility is critical. Rabies is nearly always fatal once symptoms appear, making emergency care after any bite or scratch essential rather than optional.",
+    "sourceCitation": "World Health Organization, Rabies fact sheet"
+  },
+  {
+    "id": "snakebite-envenoming",
+    "name": "Snakebite envenoming",
+    "category": "emergency",
+    "overview": "Tissue and organ damage caused by venom injected through the bite of a venomous snake. South Asia, especially India, has one of the highest snakebite death tolls in the world.",
+    "symptoms": [
+      "Pain and swelling around the bite",
+      "Bleeding, bruising, or blistering",
+      "Difficulty breathing or drooping eyelids in severe envenoming"
+    ],
+    "treatment": "Requires urgent transport to a medical facility for antivenom and supportive care. Keep the affected limb still and below heart level, and avoid cutting, sucking, or applying a tight tourniquet to the wound.",
+    "sourceCitation": "World Health Organization, Snakebite envenoming fact sheet"
+  },
+  {
+    "id": "leprosy",
+    "name": "Leprosy",
+    "category": "infectious",
+    "overview": "A chronic infection caused by Mycobacterium leprae that mainly affects the skin, nerves, and eyes. India accounts for a large share of new cases diagnosed worldwide each year.",
+    "symptoms": [
+      "Pale or reddish skin patches with reduced sensation",
+      "Numbness or weakness in the hands, feet, or face",
+      "Thickened or enlarged peripheral nerves"
+    ],
+    "treatment": "Fully curable with multidrug therapy taken over several months to a year. Early treatment prevents the nerve damage and disability historically associated with the disease.",
+    "sourceCitation": "World Health Organization, Leprosy fact sheet"
+  },
+  {
+    "id": "kala-azar",
+    "name": "Kala-azar (visceral leishmaniasis)",
+    "category": "infectious",
+    "overview": "A parasitic disease spread by sandfly bites that affects internal organs, concentrated in the Bangladesh-India-Nepal 'kala-azar belt' of South Asia.",
+    "symptoms": [
+      "Prolonged fever lasting more than two weeks",
+      "Weight loss and an enlarged spleen or liver",
+      "Fatigue and low blood cell counts"
+    ],
+    "treatment": "Treated with antileishmanial medication under medical supervision. The region has made significant progress toward elimination through combined vector control and treatment programs.",
+    "sourceCitation": "World Health Organization, Leishmaniasis fact sheet"
+  },
+  {
+    "id": "japanese-encephalitis",
+    "name": "Japanese encephalitis",
+    "category": "infectious",
+    "overview": "A viral brain infection spread by Culex mosquitoes, most common in rural farming areas of South Asia and Southeast Asia, particularly where rice cultivation and pig farming create mosquito breeding conditions.",
+    "symptoms": [
+      "High fever and headache",
+      "Confusion or difficulty waking",
+      "Seizures or muscle weakness in severe cases"
+    ],
+    "treatment": "No specific antiviral treatment exists; care focuses on hospital-based supportive treatment. Vaccination is the primary prevention strategy in endemic areas.",
+    "sourceCitation": "World Health Organization, Japanese encephalitis fact sheet"
+  },
+  {
+    "id": "chikungunya",
+    "name": "Chikungunya",
+    "category": "infectious",
+    "overview": "A mosquito-borne viral illness transmitted by the same Aedes mosquitoes that spread dengue, causing outbreaks across South Asia including India and Bangladesh.",
+    "symptoms": [
+      "Sudden fever with severe joint pain",
+      "Muscle pain and headache",
+      "Rash and joint swelling that can persist for weeks"
+    ],
+    "treatment": "No specific antiviral treatment exists; managed with rest, fluids, and pain relief. Joint pain can linger for weeks to months after the initial illness.",
+    "sourceCitation": "World Health Organization, Chikungunya fact sheet"
+  },
+  {
+    "id": "hepatitis-a",
+    "name": "Hepatitis A",
+    "category": "infectious",
+    "overview": "A viral liver infection spread through contaminated food or water, common in regions with limited access to safe sanitation across South Asia.",
+    "symptoms": [
+      "Fatigue and nausea",
+      "Yellowing of the skin or eyes (jaundice)",
+      "Abdominal discomfort and dark urine"
+    ],
+    "treatment": "Usually resolves on its own with rest, fluids, and avoiding alcohol while the liver heals; there is no specific antiviral treatment. Vaccination provides effective prevention.",
+    "sourceCitation": "World Health Organization, Hepatitis A fact sheet"
+  },
+  {
+    "id": "rheumatic-heart-disease",
+    "name": "Rheumatic heart disease",
+    "category": "cardiovascular",
+    "overview": "Permanent heart valve damage caused by one or more episodes of rheumatic fever, an inflammatory reaction to untreated streptococcal throat infection. It remains a significant cause of heart disease in South Asia.",
+    "symptoms": [
+      "Shortness of breath, especially with activity",
+      "Fatigue and swelling in the legs or abdomen",
+      "Irregular heartbeat or chest discomfort"
+    ],
+    "treatment": "Managed with medication to control heart failure symptoms and prevent further strep infections. Severe valve damage may eventually require surgical repair or replacement.",
+    "sourceCitation": "World Health Organization, Rheumatic heart disease fact sheet"
+  },
+  {
+    "id": "copd",
+    "name": "Chronic obstructive pulmonary disease (COPD)",
+    "category": "respiratory",
+    "overview": "A progressive lung disease that narrows the airways, commonly linked to smoking and indoor air pollution from biomass cooking fuels — a major risk factor across South Asia.",
+    "symptoms": [
+      "Persistent cough with mucus",
+      "Shortness of breath that worsens over time",
+      "Wheezing and chest tightness"
+    ],
+    "treatment": "Managed with inhaled bronchodilators and, in some cases, corticosteroids, alongside quitting smoking and reducing exposure to indoor smoke. Pulmonary rehabilitation can help with severe symptoms.",
+    "sourceCitation": "World Health Organization, Chronic obstructive pulmonary disease fact sheet"
   }
 ]

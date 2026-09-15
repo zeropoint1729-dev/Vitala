@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import com.faridul.vitala.data.model.Disease
 import kotlinx.coroutines.flow.Flow
 
@@ -17,4 +18,13 @@ interface DiseaseDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(diseases: List<Disease>)
+
+    @Query("DELETE FROM diseases")
+    suspend fun clearAll()
+
+    @Transaction
+    suspend fun replaceAll(diseases: List<Disease>) {
+        clearAll()
+        insertAll(diseases)
+    }
 }

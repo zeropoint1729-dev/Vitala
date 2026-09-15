@@ -50,9 +50,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         deepLinkRoute.value = intent?.getStringExtra(EXTRA_DEEP_LINK_ROUTE)
 
+        val app = applicationContext as VitalaApplication
+        // Runs on every onCreate, including the recreate() a language switch
+        // triggers — Application.onCreate() only fires once per process, so it
+        // can't be relied on to catch a live language change mid-session.
+        app.applicationScope.launch { app.diseaseRepository.syncLanguage(applicationContext) }
+
         setContent {
             VitalaTheme {
-                val app = applicationContext as VitalaApplication
                 val hasAccepted by app.preferencesManager.hasAcceptedDisclaimer.collectAsState(initial = false)
                 val scope = rememberCoroutineScope()
 
