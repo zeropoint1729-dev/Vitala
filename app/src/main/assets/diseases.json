@@ -1,0 +1,184 @@
+[
+  {
+    "id": "diabetes-type-2",
+    "name": "Type 2 diabetes",
+    "category": "endocrine",
+    "overview": "A chronic condition affecting how the body processes blood sugar, caused by insulin resistance or reduced insulin production.",
+    "symptoms": [
+      "Increased thirst and frequent urination",
+      "Fatigue and blurred vision",
+      "Unexplained weight loss"
+    ],
+    "treatment": "Typically managed with lifestyle changes, oral medication such as metformin, and in some cases insulin therapy. Regular blood glucose monitoring is essential.",
+    "sourceCitation": "World Health Organization, Diabetes fact sheet"
+  },
+  {
+    "id": "hypertension",
+    "name": "Hypertension",
+    "category": "cardiovascular",
+    "overview": "Persistently elevated blood pressure in the arteries, often with no early symptoms, that raises the risk of heart disease and stroke.",
+    "symptoms": [
+      "Usually asymptomatic in early stages",
+      "Headaches or shortness of breath at very high readings",
+      "Nosebleeds in severe cases"
+    ],
+    "treatment": "Managed through reduced sodium intake, regular exercise, weight management, and antihypertensive medication such as ACE inhibitors when prescribed.",
+    "sourceCitation": "World Health Organization, Hypertension fact sheet"
+  },
+  {
+    "id": "dengue-fever",
+    "name": "Dengue fever",
+    "category": "infectious",
+    "overview": "A mosquito-borne viral infection common in tropical and subtropical regions, transmitted primarily by Aedes aegypti mosquitoes.",
+    "symptoms": [
+      "High fever with severe headache",
+      "Pain behind the eyes, joint, and muscle pain",
+      "Skin rash and easy bruising"
+    ],
+    "treatment": "No specific antiviral treatment exists; care focuses on rest, fluids, and fever management. Warning signs such as bleeding or abdominal pain need urgent hospital care.",
+    "sourceCitation": "World Health Organization, Dengue and severe dengue fact sheet"
+  },
+  {
+    "id": "typhoid-fever",
+    "name": "Typhoid fever",
+    "category": "infectious",
+    "overview": "A bacterial infection caused by Salmonella typhi, spread through contaminated food or water, common where safe sanitation is limited.",
+    "symptoms": [
+      "Sustained high fever that rises gradually",
+      "Abdominal pain with constipation or diarrhea",
+      "Fatigue, headache, and loss of appetite"
+    ],
+    "treatment": "Treated with a prescribed course of antibiotics along with rest and hydration. Untreated cases can lead to serious complications, so medical diagnosis is important.",
+    "sourceCitation": "World Health Organization, Typhoid fact sheet"
+  },
+  {
+    "id": "asthma",
+    "name": "Asthma",
+    "category": "respiratory",
+    "overview": "A chronic condition in which the airways narrow, swell, and produce extra mucus, making breathing difficult and triggering wheezing episodes.",
+    "symptoms": [
+      "Wheezing and shortness of breath",
+      "Chest tightness",
+      "Coughing, especially at night or early morning"
+    ],
+    "treatment": "Managed with inhaled bronchodilators for quick relief and inhaled corticosteroids for long-term control, alongside avoiding known triggers.",
+    "sourceCitation": "World Health Organization, Asthma fact sheet"
+  },
+  {
+    "id": "common-cold",
+    "name": "Common cold",
+    "category": "respiratory",
+    "overview": "A mild viral infection of the nose and throat, usually caused by rhinoviruses, and one of the most frequent illnesses in adults and children.",
+    "symptoms": [
+      "Runny or stuffy nose and sneezing",
+      "Sore throat and mild cough",
+      "Low-grade fever, mostly in children"
+    ],
+    "treatment": "Usually resolves on its own within a week; rest, fluids, and over-the-counter symptom relief can help. Antibiotics are not effective since it is viral.",
+    "sourceCitation": "Centers for Disease Control and Prevention, Common cold overview"
+  },
+  {
+    "id": "seasonal-influenza",
+    "name": "Seasonal influenza",
+    "category": "respiratory",
+    "overview": "A contagious viral respiratory illness that circulates seasonally, generally more severe than the common cold.",
+    "symptoms": [
+      "Sudden high fever and chills",
+      "Body aches and fatigue",
+      "Dry cough and sore throat"
+    ],
+    "treatment": "Rest and fluids for most cases; antiviral medication may be prescribed early on for high-risk patients. Annual vaccination reduces risk.",
+    "sourceCitation": "World Health Organization, Influenza fact sheet"
+  },
+  {
+    "id": "migraine",
+    "name": "Migraine",
+    "category": "neurological",
+    "overview": "A neurological condition causing recurrent, often one-sided headaches, frequently accompanied by sensitivity to light and sound.",
+    "symptoms": [
+      "Throbbing headache, often on one side",
+      "Nausea and sensitivity to light or sound",
+      "Visual disturbances before onset in some cases"
+    ],
+    "treatment": "Managed with pain-relief medication for attacks and, for frequent migraines, preventive medication prescribed by a doctor along with trigger avoidance.",
+    "sourceCitation": "World Health Organization, Headache disorders fact sheet"
+  },
+  {
+    "id": "acute-gastroenteritis",
+    "name": "Acute gastroenteritis",
+    "category": "digestive",
+    "overview": "Inflammation of the stomach and intestines, usually caused by viral, bacterial, or parasitic infection, leading to diarrhea and vomiting.",
+    "symptoms": [
+      "Watery diarrhea and vomiting",
+      "Abdominal cramps",
+      "Dehydration signs such as thirst and reduced urination"
+    ],
+    "treatment": "Oral rehydration solution is the priority to prevent dehydration. Most cases resolve with supportive care, though severe or prolonged cases need medical attention.",
+    "sourceCitation": "World Health Organization, Diarrhoeal disease fact sheet"
+  },
+  {
+    "id": "iron-deficiency-anemia",
+    "name": "Iron-deficiency anemia",
+    "category": "hematologic",
+    "overview": "A condition where the body lacks enough healthy red blood cells due to insufficient iron, reducing the blood's oxygen-carrying capacity.",
+    "symptoms": [
+      "Fatigue and weakness",
+      "Pale skin and shortness of breath",
+      "Dizziness and brittle nails"
+    ],
+    "treatment": "Addressed with dietary iron intake and iron supplementation as prescribed, alongside treating any underlying cause of blood loss.",
+    "sourceCitation": "World Health Organization, Anaemia fact sheet"
+  },
+  {
+    "id": "peptic-ulcer-disease",
+    "name": "Peptic ulcer disease",
+    "category": "digestive",
+    "overview": "Sores that develop on the lining of the stomach or upper small intestine, often linked to H. pylori infection or long-term use of certain pain medications.",
+    "symptoms": [
+      "Burning stomach pain, often between meals",
+      "Bloating and nausea",
+      "Dark or tarry stools in severe cases"
+    ],
+    "treatment": "Treated with acid-reducing medication and, when H. pylori is present, a course of antibiotics. Avoiding NSAIDs and irritants supports healing.",
+    "sourceCitation": "Mayo Clinic, Peptic ulcer overview"
+  },
+  {
+    "id": "tuberculosis",
+    "name": "Tuberculosis",
+    "category": "infectious",
+    "overview": "A bacterial infection caused by Mycobacterium tuberculosis, most commonly affecting the lungs, and spread through the air when an infected person coughs.",
+    "symptoms": [
+      "Persistent cough lasting more than two weeks",
+      "Night sweats and unexplained weight loss",
+      "Fatigue and low-grade fever"
+    ],
+    "treatment": "Treated with a supervised, multi-drug antibiotic regimen over several months. Completing the full course is essential to prevent drug resistance.",
+    "sourceCitation": "World Health Organization, Tuberculosis fact sheet"
+  },
+  {
+    "id": "chronic-kidney-disease",
+    "name": "Chronic kidney disease",
+    "category": "renal",
+    "overview": "A gradual loss of kidney function over time, often linked to diabetes and hypertension, which can progress silently in early stages.",
+    "symptoms": [
+      "Swelling in the legs, ankles, or feet",
+      "Fatigue and reduced appetite",
+      "Changes in urination frequency or appearance"
+    ],
+    "treatment": "Managed by controlling underlying conditions such as blood pressure and blood sugar, dietary adjustments, and in advanced stages, dialysis or transplant.",
+    "sourceCitation": "World Health Organization, Chronic kidney disease overview"
+  },
+  {
+    "id": "osteoarthritis",
+    "name": "Osteoarthritis",
+    "category": "musculoskeletal",
+    "overview": "The most common form of arthritis, caused by the gradual breakdown of joint cartilage, leading to pain and stiffness most often in weight-bearing joints.",
+    "symptoms": [
+      "Joint pain that worsens with activity",
+      "Stiffness, especially after rest or in the morning",
+      "Reduced range of motion and joint swelling"
+    ],
+    "treatment": "Managed with pain relief medication, physical therapy, weight management, and in severe cases, joint replacement surgery.",
+    "sourceCitation": "World Health Organization, Osteoarthritis fact sheet"
+  }
+]

@@ -9,6 +9,8 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.faridul.vitala.data.model.DailyTip
 import com.faridul.vitala.data.model.Disease
 import com.faridul.vitala.data.model.NewsArticle
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -32,18 +34,21 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "vitala.db"
-                ).addCallback(SeedCallback(scope))
+                ).addCallback(SeedCallback(context.applicationContext, scope))
                     .build()
                     .also { INSTANCE = it }
             }
     }
 
-    private class SeedCallback(private val scope: CoroutineScope) : RoomDatabase.Callback() {
+    private class SeedCallback(
+        private val context: Context,
+        private val scope: CoroutineScope
+    ) : RoomDatabase.Callback() {
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
             val instance = INSTANCE ?: return
             scope.launch {
-                instance.diseaseDao().insertAll(seedDiseases)
+                instance.diseaseDao().insertAll(loadDiseasesFromAssets(context))
                 instance.newsArticleDao().insertAll(seedNews)
                 instance.dailyTipDao().insertAll(seedTips)
             }
@@ -51,36 +56,14 @@ abstract class AppDatabase : RoomDatabase() {
     }
 }
 
-// Starter content only. Real disease entries should come from a reviewed,
-// sourced dataset (see README) rather than being expanded here by hand.
-private val seedDiseases = listOf(
-    Disease(
-        id = "diabetes-type-2",
-        name = "Type 2 diabetes",
-        category = "endocrine",
-        overview = "A chronic condition affecting how the body processes blood sugar, caused by insulin resistance or reduced insulin production.",
-        symptoms = listOf(
-            "Increased thirst and frequent urination",
-            "Fatigue and blurred vision",
-            "Unexplained weight loss"
-        ),
-        treatment = "Typically managed with lifestyle changes, oral medication such as metformin, and in some cases insulin therapy. Regular blood glucose monitoring is essential.",
-        sourceCitation = "World Health Organization, Diabetes fact sheet"
-    ),
-    Disease(
-        id = "hypertension",
-        name = "Hypertension",
-        category = "cardiovascular",
-        overview = "Persistently elevated blood pressure in the arteries, often with no early symptoms, that raises the risk of heart disease and stroke.",
-        symptoms = listOf(
-            "Usually asymptomatic in early stages",
-            "Headaches or shortness of breath at very high readings",
-            "Nosebleeds in severe cases"
-        ),
-        treatment = "Managed through reduced sodium intake, regular exercise, weight management, and antihypertensive medication such as ACE inhibitors when prescribed.",
-        sourceCitation = "World Health Organization, Hypertension fact sheet"
-    )
-)
+// The disease library reads from app/src/main/assets/diseases.json — edit or
+// extend that file to grow the dataset; nothing about a disease is hardcoded
+// here anymore.
+private fun loadDiseasesFromAssets(context: Context): List<Disease> {
+    val json = context.assets.open("diseases.json").bufferedReader().use { it.readText() }
+    val listType = object : TypeToken<List<Disease>>() {}.type
+    return Gson().fromJson(json, listType)
+}
 
 private val seedNews = listOf(
     NewsArticle(
