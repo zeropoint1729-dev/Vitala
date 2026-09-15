@@ -11,5 +11,6 @@ data class NewsArticle(
     val source: String,
     val publishedAt: Long,
     val summary: String,
-    val url: String
+    val url: String,
+    val isBookmarked: Boolean = false
 )

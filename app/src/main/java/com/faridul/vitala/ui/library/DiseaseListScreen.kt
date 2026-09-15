@@ -2,6 +2,8 @@ package com.faridul.vitala.ui.library
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -15,19 +17,27 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.WaterDrop
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.faridul.vitala.R
 import com.faridul.vitala.VitalaApplication
 import com.faridul.vitala.data.model.Disease
 
@@ -37,6 +47,14 @@ fun DiseaseListScreen(navController: NavController) {
     val app = context.applicationContext as VitalaApplication
     val diseases by app.diseaseRepository.observeAll().collectAsState(initial = emptyList())
 
+    var query by remember { mutableStateOf("") }
+    var selectedCategory by remember { mutableStateOf<String?>(null) }
+
+    val categories = remember(diseases) { DiseaseFilter.categories(diseases) }
+    val filtered = remember(diseases, query, selectedCategory) {
+        DiseaseFilter.filter(diseases, query, selectedCategory)
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -45,25 +63,74 @@ fun DiseaseListScreen(navController: NavController) {
             .padding(16.dp)
     ) {
         Text(
-            text = "Disease library",
+            text = stringResource(R.string.disease_library_title),
             style = MaterialTheme.typography.titleLarge,
             color = MaterialTheme.colorScheme.onBackground
         )
         Spacer(Modifier.height(16.dp))
 
-        if (diseases.isEmpty()) {
+        TextField(
+            value = query,
+            onValueChange = { query = it },
+            modifier = Modifier.fillMaxWidth(),
+            placeholder = { Text(stringResource(R.string.library_search_placeholder)) },
+            leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) },
+            singleLine = true,
+            colors = TextFieldDefaults.colors(
+                unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+                focusedContainerColor = MaterialTheme.colorScheme.surface,
+                unfocusedIndicatorColor = androidx.compose.ui.graphics.Color.Transparent,
+                focusedIndicatorColor = androidx.compose.ui.graphics.Color.Transparent
+            )
+        )
+        Spacer(Modifier.height(10.dp))
+
+        Row(
+            modifier = Modifier.horizontalScroll(rememberScrollState()),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            FilterPill(
+                label = stringResource(R.string.filter_all),
+                selected = selectedCategory == null,
+                onClick = { selectedCategory = null }
+            )
+            categories.forEach { category ->
+                FilterPill(
+                    label = category,
+                    selected = selectedCategory == category,
+                    onClick = { selectedCategory = category }
+                )
+            }
+        }
+        Spacer(Modifier.height(16.dp))
+
+        if (filtered.isEmpty()) {
             Text(
-                text = "No entries yet.",
+                text = stringResource(R.string.library_empty),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
             )
         }
 
-        diseases.forEach { disease ->
+        filtered.forEach { disease ->
             DiseaseRow(disease) { navController.navigate("library/${disease.id}") }
             Spacer(Modifier.height(12.dp))
         }
     }
+}
+
+@Composable
+private fun FilterPill(label: String, selected: Boolean, onClick: () -> Unit) {
+    Text(
+        text = label,
+        style = MaterialTheme.typography.labelSmall,
+        color = if (selected) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.onSurface,
+        modifier = Modifier
+            .clip(RoundedCornerShape(20.dp))
+            .background(if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface)
+            .clickable(onClick = onClick)
+            .padding(horizontal = 14.dp, vertical = 6.dp)
+    )
 }
 
 @Composable

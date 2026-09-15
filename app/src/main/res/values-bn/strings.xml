@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Vitala</string>
+
+    <string name="nav_home">হোম</string>
+    <string name="nav_news">সংবাদ</string>
+    <string name="nav_library">লাইব্রেরি</string>
+    <string name="nav_tips">টিপস</string>
+
+    <string name="home_greeting">শুভ সকাল</string>
+    <string name="tip_card_title">আজকের পরামর্শ</string>
+    <string name="tip_card_reminder">সকাল ৮:০০ টায় রিমাইন্ডার সেট করা আছে</string>
+    <string name="home_section_news">সর্বশেষ স্বাস্থ্য সংবাদ</string>
+    <string name="action_see_all">সব দেখুন</string>
+    <string name="disease_library_title">রোগ লাইব্রেরি</string>
+    <string name="action_browse_all">সব দেখুন</string>
+
+    <string name="news_title">স্বাস্থ্য সংবাদ</string>
+    <string name="news_empty">এখনো কোনো নিবন্ধ নেই।</string>
+    <string name="news_search_placeholder">সংবাদ খুঁজুন</string>
+    <string name="filter_all">সব</string>
+    <string name="filter_saved">সংরক্ষিত</string>
+    <string name="news_last_synced">সর্বশেষ সিঙ্ক %1$s</string>
+    <string name="time_just_now">এইমাত্র</string>
+    <string name="time_minutes_ago">%1$d মিনিট আগে</string>
+    <string name="time_hours_ago">%1$d ঘণ্টা আগে</string>
+    <string name="news_refreshing">রিফ্রেশ হচ্ছে…</string>
+    <string name="news_refresh_error">রিফ্রেশ করা যায়নি। সংরক্ষিত নিবন্ধ দেখানো হচ্ছে।</string>
+    <string name="category_news">সংবাদ</string>
+    <string name="category_journal">জার্নাল</string>
+    <string name="article_read_full">সম্পূর্ণ নিবন্ধ পড়ুন</string>
+    <string name="article_save">সংরক্ষণ করুন</string>
+    <string name="article_unsave">সংরক্ষণ থেকে সরান</string>
+    <string name="loading">লোড হচ্ছে…</string>
+
+    <string name="library_empty">এখনো কোনো তথ্য নেই।</string>
+    <string name="library_search_placeholder">রোগ খুঁজুন</string>
+
+    <string name="section_overview">সংক্ষিপ্ত বিবরণ</string>
+    <string name="section_symptoms">সাধারণ লক্ষণ</string>
+    <string name="section_treatment">চিকিৎসা পদ্ধতি</string>
+    <string name="disease_disclaimer">উৎস: %1$s। শুধুমাত্র তথ্যের উদ্দেশ্যে — রোগ নির্ণয় ও চিকিৎসার জন্য সর্বদা একজন লাইসেন্সপ্রাপ্ত চিকিৎসকের পরামর্শ নিন।</string>
+
+    <string name="tips_title">স্বাস্থ্য পরামর্শ</string>
+    <string name="tips_reminder_label">দৈনিক রিমাইন্ডার</string>
+    <string name="tips_enable_reminder">দৈনিক রিমাইন্ডার চালু করুন</string>
+    <string name="tips_reminder_set">%1$s এর জন্য রিমাইন্ডার সেট হয়েছে</string>
+    <string name="tips_permission_denied">নোটিফিকেশন অনুমতি প্রত্যাখ্যান করা হয়েছে</string>
+    <string name="tips_all_tips">সব পরামর্শ</string>
+
+    <string name="disclaimer_title">শুরু করার আগে</string>
+    <string name="disclaimer_body">Vitala সাধারণ স্বাস্থ্য তথ্য ও পরামর্শ দেয়, তবে এটি পেশাদার চিকিৎসা পরামর্শের বিকল্প নয়। যেকোনো স্বাস্থ্য সিদ্ধান্তের আগে সর্বদা একজন যোগ্য চিকিৎসকের সাথে পরামর্শ করুন।</string>
+    <string name="disclaimer_accept">বুঝেছি</string>
+
+    <string name="widget_title">আজকের স্বাস্থ্য পরামর্শ</string>
+    <string name="widget_fallback">আজকের পরামর্শের জন্য Vitala খুলুন</string>
+
+    <string name="notif_channel_name">দৈনিক স্বাস্থ্য পরামর্শ</string>
+
+    <string name="cd_notifications">নোটিফিকেশন</string>
+    <string name="cd_back">পেছনে</string>
+    <string name="cd_refresh">রিফ্রেশ করুন</string>
+</resources>

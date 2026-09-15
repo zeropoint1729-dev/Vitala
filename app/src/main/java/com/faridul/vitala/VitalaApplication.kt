@@ -2,6 +2,7 @@ package com.faridul.vitala
 
 import android.app.Application
 import com.faridul.vitala.data.local.AppDatabase
+import com.faridul.vitala.data.prefs.PreferencesManager
 import com.faridul.vitala.data.repository.DiseaseRepository
 import com.faridul.vitala.data.repository.NewsRepository
 import com.faridul.vitala.data.repository.TipRepository
@@ -17,6 +18,7 @@ class VitalaApplication : Application() {
     val diseaseRepository by lazy { DiseaseRepository(database.diseaseDao()) }
     val newsRepository by lazy { NewsRepository(database.newsArticleDao()) }
     val tipRepository by lazy { TipRepository(database.dailyTipDao()) }
+    val preferencesManager by lazy { PreferencesManager(this) }
 
     override fun onCreate() {
         super.onCreate()

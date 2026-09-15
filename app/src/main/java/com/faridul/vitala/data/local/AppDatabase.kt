@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 
 @Database(
     entities = [Disease::class, NewsArticle::class, DailyTip::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
@@ -35,6 +35,9 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "vitala.db"
                 ).addCallback(SeedCallback(context.applicationContext, scope))
+                    // Pre-release app, no shipped user data to preserve yet — revisit
+                    // with a real Migration before this ships to real users.
+                    .fallbackToDestructiveMigration()
                     .build()
                     .also { INSTANCE = it }
             }

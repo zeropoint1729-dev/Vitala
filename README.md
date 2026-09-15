@@ -1,6 +1,6 @@
 # Vitala
 
-Native Android health app: health news and journals, a disease reference library, and daily health tips with a scheduled notification.
+Native Android health app: health news and journals, a disease reference library, and daily health tips with a scheduled notification. Bilingual (English/Bengali).
 
 ## Setup from Termux
 
@@ -15,18 +15,33 @@ gh run list --limit 1
 gh run download <run-id> -n vitala-debug-apk
 ```
 
+## Architecture
+
+- **Data**: Room (`data/local`) + a JSON-seeded disease library (`assets/diseases.json`) + live news from WHO's RSS feed and PubMed's E-utilities API (`data/remote`). `data/repository` wraps both behind `Flow`-returning repositories that the UI observes reactively.
+- **UI**: Jetpack Compose, Material 3, dark-premium amber-on-near-black theme. No DI framework — `VitalaApplication` holds lazily-built singletons (database, repositories, `PreferencesManager`) that screens reach via `LocalContext.current.applicationContext as VitalaApplication`.
+- **Persistence beyond Room**: `data/prefs/PreferencesManager` (DataStore) holds the one-time disclaimer flag and the persisted reminder time.
+- **Localization**: all app-chrome strings live in `res/values/strings.xml` (English) and `res/values-bn/strings.xml` (Bengali) — disease/news *content* itself (JSON data, fetched articles) is not translated.
+
 ## Done
 
-- Bottom navigation (Home / News / Library / Tips) wired in `MainActivity`, with `news/{articleId}` and `library/{diseaseId}` detail routes.
-- Room database (`AppDatabase`, DAOs, `Converters`) seeded on first launch: diseases load from `app/src/main/assets/diseases.json` (14 entries); news starts from a small hardcoded fallback and is immediately replaced by a live fetch; tips are still a hardcoded seed list.
-- Repository layer (`DiseaseRepository`, `NewsRepository`, `TipRepository`) exposing `Flow`s.
-- `HomeScreen`, `NewsListScreen`, `ArticleDetailScreen`, `DiseaseListScreen`, `DiseaseDetailScreen`, and `TipsHistoryScreen` are all live off Room — no more placeholder screens.
-- `TipsHistoryScreen` has a working reminder toggle: pick a time, tap "Enable daily reminder", it requests `POST_NOTIFICATIONS` on Android 13+ and calls `NotificationScheduler.schedule(...)`.
-- `data/remote` — `RemoteNewsSource` fetches live "news" from WHO's RSS feed (`who.int/rss-feeds/news-english.xml`, parsed with Android's built-in `XmlPullParser`, no library needed) and "journal" articles from PubMed's E-utilities (`esearch`/`esummary`, no API key required). `NewsRepository.refresh()` pulls both and atomically replaces the Room cache via `NewsArticleDao.replaceAll` — called once on app startup (`VitalaApplication.onCreate`) and again each time the News tab opens. If both sources fail (e.g. offline), the existing cached/seed data is left alone rather than wiped.
+- Bottom navigation (Home / News / Library / Tips), with `news/{articleId}` and `library/{diseaseId}` detail routes. Highlighting now works correctly on detail screens too.
+- Room database seeded on first launch: diseases from `assets/diseases.json` (14 entries); news starts from a small fallback, immediately replaced by a live fetch; tips are a hardcoded seed list.
+- `data/remote/RemoteNewsSource` fetches live "news" from WHO's RSS feed and "journal" articles from PubMed's E-utilities API — both free, no API key. `NewsRepository.refresh()` pulls both and atomically replaces the non-bookmarked cache, called on app startup and whenever the News tab opens.
+- **Bookmarking**: articles can be saved from the detail screen; the News list has an All/Saved filter. Saved articles survive a refresh (they're excluded from the replace-cache cycle) — see `NewsArticleDao.replaceAll`.
+- **Search + filters**: text search on both News and Library; the Library also has scrollable category chips (`DiseaseFilter`, a pure/testable utility).
+- **Last-synced visibility**: the News screen shows a manual refresh button, a spinner while refreshing, and "last synced Xm ago" / an error line otherwise (`NewsRepository.isRefreshing` / `lastSyncedAt` / `lastError`).
+- **Disclaimer screen**: shown once before the main app, gated on a DataStore flag (`PreferencesManager.hasAcceptedDisclaimer`).
+- **Notification deep-link**: tapping the daily-tip notification opens the Tips screen directly (`MainActivity.EXTRA_DEEP_LINK_ROUTE`, `onNewIntent`, `launchMode="singleTop"`). This also fixed a real bug — the notification was previously showing hardcoded placeholder text instead of the actual day's tip.
+- **Persisted reminder time**: survives app restart via DataStore (the WorkManager schedule itself already persisted; this persists the *displayed* selection).
+- **Home screen widget**: `widget/DailyTipWidgetProvider` — classic `RemoteViews`/`AppWidgetProvider` (not Glance, to keep the dependency surface small), shows today's tip, updates roughly every 30 min (the OS-enforced minimum), tapping deep-links into the Tips screen.
+- **App icon**: real adaptive icon (amber heart on near-black), replacing the system placeholder.
+- **ProGuard readiness**: `app/proguard-rules.pro` keeps the Gson-deserialized model classes (`data/model/**`, PubMed response classes) so minification won't silently null out their fields. `isMinifyEnabled` is still `false` — flip it on only after testing a release build, since this was never compiled in this environment.
+- **Unit tests**: `DiseaseFilterTest` (search/category logic) and `TipRepositoryTest` (day-seeded tip selection, using a fake DAO — no Android runtime needed). Run with `./gradlew test`.
 
-## Still stubbed out / not wired
+## Known simplifications / follow-ups
 
-- `assets/diseases.json` has 14 entries covering common chronic conditions plus a few especially relevant in Bangladesh (dengue, typhoid, tuberculosis, gastroenteritis). It's a good starter set, not a medically reviewed dataset — have it checked before shipping, and it's the only file that needs editing to add more diseases.
-- Launcher icon — manifest currently points at a system placeholder icon.
-- Reminder time selection isn't persisted (e.g. via DataStore) — it resets to 8:00 am default on app restart, though the underlying WorkManager schedule itself does persist.
-- Bottom nav doesn't highlight "News"/"Library" while viewing a detail screen (`news/{id}`, `library/{id}` don't match the tab's exact route).
+- **Room migration**: the `isBookmarked` column bump uses `fallbackToDestructiveMigration()` — fine pre-release (wipes local data on schema change), but replace with a real `Migration` before this ships to real users with data worth keeping.
+- **No swipe-to-refresh gesture**: Material3's `PullToRefreshBox` needs a newer Compose BOM than this project pins, and I didn't want to bump it blind (already had one real build break from an unverified version). The manual refresh button covers the same need; add the gesture later if you bump the BOM.
+- **Time labels aren't localized**: the three reminder time pills ("7:00 am" etc.) are plain literals, not locale-aware formatted times.
+- **Disease dataset**: 14 entries, written from general medical knowledge — not medically reviewed. Have it checked before real users see it.
+- **No real device/CI verification**: everything here was written and statically checked (import/reference cross-checks, brace-balance checks) but never compiled — there's no Android SDK in this environment. Push and watch the Actions run; report back anything that fails and I'll fix it.

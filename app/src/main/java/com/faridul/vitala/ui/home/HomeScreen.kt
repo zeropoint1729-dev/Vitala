@@ -33,9 +33,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.faridul.vitala.R
 import com.faridul.vitala.VitalaApplication
 import com.faridul.vitala.data.model.DailyTip
 import com.faridul.vitala.data.model.Disease
@@ -62,7 +64,7 @@ fun HomeScreen(navController: NavController) {
         HomeHeader()
         Spacer(Modifier.height(2.dp))
         Text(
-            text = "Good morning",
+            text = stringResource(R.string.home_greeting),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
         )
@@ -72,8 +74,8 @@ fun HomeScreen(navController: NavController) {
         Spacer(Modifier.height(20.dp))
 
         SectionHeader(
-            title = "Latest health news",
-            actionLabel = "See all",
+            title = stringResource(R.string.home_section_news),
+            actionLabel = stringResource(R.string.action_see_all),
             onActionClick = { navController.navigate("news") }
         )
         Spacer(Modifier.height(8.dp))
@@ -84,8 +86,8 @@ fun HomeScreen(navController: NavController) {
         Spacer(Modifier.height(12.dp))
 
         SectionHeader(
-            title = "Disease library",
-            actionLabel = "Browse all",
+            title = stringResource(R.string.disease_library_title),
+            actionLabel = stringResource(R.string.action_browse_all),
             onActionClick = { navController.navigate("library") }
         )
         Spacer(Modifier.height(8.dp))
@@ -126,14 +128,14 @@ private fun HomeHeader() {
             }
             Spacer(Modifier.width(8.dp))
             Text(
-                text = "Vitala",
+                text = stringResource(R.string.app_name),
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onBackground
             )
         }
         Icon(
             imageVector = Icons.Filled.Notifications,
-            contentDescription = "Notifications",
+            contentDescription = stringResource(R.string.cd_notifications),
             tint = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
         )
     }
@@ -157,14 +159,14 @@ private fun TipCard(tip: DailyTip?) {
             )
             Spacer(Modifier.width(8.dp))
             Text(
-                text = "Today's tip",
+                text = stringResource(R.string.tip_card_title),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.primary
             )
         }
         Spacer(Modifier.height(6.dp))
         Text(
-            text = tip?.text ?: "Loading today's tip…",
+            text = tip?.text ?: stringResource(R.string.loading),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurface
         )
@@ -178,7 +180,7 @@ private fun TipCard(tip: DailyTip?) {
             )
             Spacer(Modifier.width(4.dp))
             Text(
-                text = "Reminder set for 8:00 am",
+                text = stringResource(R.string.tip_card_reminder),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.secondary
             )
@@ -190,6 +192,7 @@ private fun TipCard(tip: DailyTip?) {
 private fun NewsPreviewRow(article: NewsArticle, onClick: () -> Unit) {
     val isJournal = article.category == "journal"
     val accent = if (isJournal) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary
+    val categoryLabel = if (isJournal) stringResource(R.string.category_journal) else stringResource(R.string.category_news)
 
     Row(
         modifier = Modifier
@@ -206,7 +209,7 @@ private fun NewsPreviewRow(article: NewsArticle, onClick: () -> Unit) {
         Spacer(Modifier.width(10.dp))
         Column {
             Text(
-                text = article.category,
+                text = categoryLabel,
                 style = MaterialTheme.typography.labelSmall,
                 color = accent
             )

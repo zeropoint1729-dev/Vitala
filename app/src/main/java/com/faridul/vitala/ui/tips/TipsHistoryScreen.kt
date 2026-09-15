@@ -23,20 +23,25 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.faridul.vitala.R
 import com.faridul.vitala.VitalaApplication
 import com.faridul.vitala.data.model.DailyTip
 import com.faridul.vitala.notification.NotificationScheduler
+import kotlinx.coroutines.launch
 
 private data class TimeOption(val label: String, val hour: Int, val minute: Int)
 
@@ -50,20 +55,34 @@ private val timeOptions = listOf(
 fun TipsHistoryScreen(navController: NavController) {
     val context = LocalContext.current
     val app = context.applicationContext as VitalaApplication
+    val scope = rememberCoroutineScope()
+
     val tips by app.tipRepository.observeAll().collectAsState(initial = emptyList())
     val todayTip by app.tipRepository.observeTodayTip().collectAsState(initial = null)
 
+    val persistedHour by app.preferencesManager.reminderHour.collectAsState(initial = 8)
+    val persistedMinute by app.preferencesManager.reminderMinute.collectAsState(initial = 0)
+    val reminderEnabled by app.preferencesManager.reminderEnabled.collectAsState(initial = false)
+
     var selected by remember { mutableStateOf(timeOptions[1]) }
-    var status by remember { mutableStateOf<String?>(null) }
+    var permissionDenied by remember { mutableStateOf(false) }
+
+    // Keep the selected pill in sync with whatever was persisted (e.g. on first load).
+    LaunchedEffect(persistedHour, persistedMinute) {
+        timeOptions.find { it.hour == persistedHour && it.minute == persistedMinute }?.let {
+            selected = it
+        }
+    }
 
     val permissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
     ) { granted ->
         if (granted) {
+            permissionDenied = false
             NotificationScheduler.schedule(context, selected.hour, selected.minute)
-            status = "Reminder set for ${selected.label}"
+            scope.launch { app.preferencesManager.setReminderTime(selected.hour, selected.minute) }
         } else {
-            status = "Notification permission denied"
+            permissionDenied = true
         }
     }
 
@@ -72,8 +91,14 @@ fun TipsHistoryScreen(navController: NavController) {
             permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
         } else {
             NotificationScheduler.schedule(context, selected.hour, selected.minute)
-            status = "Reminder set for ${selected.label}"
+            scope.launch { app.preferencesManager.setReminderTime(selected.hour, selected.minute) }
         }
+    }
+
+    val reminderStatusText = when {
+        permissionDenied -> stringResource(R.string.tips_permission_denied)
+        reminderEnabled -> stringResource(R.string.tips_reminder_set, selected.label)
+        else -> stringResource(R.string.tips_enable_reminder)
     }
 
     Column(
@@ -84,7 +109,7 @@ fun TipsHistoryScreen(navController: NavController) {
             .padding(16.dp)
     ) {
         Text(
-            text = "Health tips",
+            text = stringResource(R.string.tips_title),
             style = MaterialTheme.typography.titleLarge,
             color = MaterialTheme.colorScheme.onBackground
         )
@@ -98,7 +123,7 @@ fun TipsHistoryScreen(navController: NavController) {
                 .padding(12.dp)
         ) {
             Text(
-                text = "Daily reminder",
+                text = stringResource(R.string.tips_reminder_label),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.primary
             )
@@ -130,7 +155,7 @@ fun TipsHistoryScreen(navController: NavController) {
                     modifier = Modifier.padding(end = 6.dp)
                 )
                 Text(
-                    text = status ?: "Enable daily reminder",
+                    text = reminderStatusText,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.secondary
                 )
@@ -139,7 +164,7 @@ fun TipsHistoryScreen(navController: NavController) {
 
         Spacer(Modifier.height(20.dp))
         Text(
-            text = "All tips",
+            text = stringResource(R.string.tips_all_tips),
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onBackground
         )

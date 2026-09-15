@@ -30,8 +30,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.faridul.vitala.R
 import com.faridul.vitala.VitalaApplication
 
 @Composable
@@ -50,13 +52,13 @@ fun DiseaseDetailScreen(navController: NavController, diseaseId: String) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(
                 imageVector = Icons.Filled.ArrowBack,
-                contentDescription = "Back",
+                contentDescription = stringResource(R.string.cd_back),
                 tint = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier.clickable { navController.popBackStack() }
             )
             Spacer(Modifier.width(10.dp))
             Text(
-                text = disease?.name ?: "Loading…",
+                text = disease?.name ?: stringResource(R.string.loading),
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onBackground
             )
@@ -67,7 +69,7 @@ fun DiseaseDetailScreen(navController: NavController, diseaseId: String) {
             CategoryPill(text = current.category, color = MaterialTheme.colorScheme.secondary)
 
             Spacer(Modifier.height(16.dp))
-            SectionLabel("overview")
+            SectionLabel(stringResource(R.string.section_overview))
             Spacer(Modifier.height(6.dp))
             Text(
                 text = current.overview,
@@ -76,7 +78,7 @@ fun DiseaseDetailScreen(navController: NavController, diseaseId: String) {
             )
 
             Spacer(Modifier.height(18.dp))
-            SectionLabel("common symptoms")
+            SectionLabel(stringResource(R.string.section_symptoms))
             Spacer(Modifier.height(8.dp))
             current.symptoms.forEach { symptom ->
                 Row(
@@ -104,7 +106,7 @@ fun DiseaseDetailScreen(navController: NavController, diseaseId: String) {
             }
 
             Spacer(Modifier.height(10.dp))
-            SectionLabel("treatment approach")
+            SectionLabel(stringResource(R.string.section_treatment))
             Spacer(Modifier.height(8.dp))
             Box(
                 modifier = Modifier
@@ -136,7 +138,7 @@ fun DiseaseDetailScreen(navController: NavController, diseaseId: String) {
                 )
                 Spacer(Modifier.width(8.dp))
                 Text(
-                    text = "Source: ${current.sourceCitation}. For informational purposes only — always consult a licensed physician for diagnosis and treatment.",
+                    text = stringResource(R.string.disease_disclaimer, current.sourceCitation),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.primary
                 )
