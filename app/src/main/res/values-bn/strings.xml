@@ -7,7 +7,9 @@
     <string name="nav_library">লাইব্রেরি</string>
     <string name="nav_tips">টিপস</string>
 
-    <string name="home_greeting">শুভ সকাল</string>
+    <string name="home_greeting_morning">শুভ সকাল</string>
+    <string name="home_greeting_afternoon">শুভ অপরাহ্ন</string>
+    <string name="home_greeting_evening">শুভ সন্ধ্যা</string>
     <string name="tip_card_title">আজকের পরামর্শ</string>
     <string name="tip_card_reminder">সকাল ৮:০০ টায় রিমাইন্ডার সেট করা আছে</string>
     <string name="home_section_news">সর্বশেষ স্বাস্থ্য সংবাদ</string>

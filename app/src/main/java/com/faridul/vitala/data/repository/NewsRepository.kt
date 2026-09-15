@@ -26,8 +26,18 @@ class NewsRepository(
 
     fun observeAll(): Flow<List<NewsArticle>> = dao.observeAll()
 
+    /**
+     * For the home preview specifically: general news first, journal articles
+     * only filling remaining slots. observeAll() (the News tab) stays pure
+     * recency order — this only changes what surfaces on Home, since a PubMed
+     * academic title is a worse first impression than a WHO news item.
+     */
     fun observePreview(limit: Int): Flow<List<NewsArticle>> =
-        dao.observeAll().map { it.take(limit) }
+        dao.observeAll().map { articles ->
+            val news = articles.filter { it.category != "journal" }
+            val journals = articles.filter { it.category == "journal" }
+            (news + journals).take(limit)
+        }
 
     fun observeById(id: String): Flow<NewsArticle?> = dao.observeById(id)
 

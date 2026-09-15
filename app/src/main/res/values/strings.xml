@@ -7,7 +7,9 @@
     <string name="nav_library">Library</string>
     <string name="nav_tips">Tips</string>
 
-    <string name="home_greeting">Good morning</string>
+    <string name="home_greeting_morning">Good morning</string>
+    <string name="home_greeting_afternoon">Good afternoon</string>
+    <string name="home_greeting_evening">Good evening</string>
     <string name="tip_card_title">Today\'s tip</string>
     <string name="tip_card_reminder">Reminder set for 8:00 am</string>
     <string name="home_section_news">Latest health news</string>

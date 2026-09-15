@@ -9,12 +9,24 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
+import java.time.LocalDate
 
 class DiseaseRepository(private val dao: DiseaseDao) {
     fun observeAll(): Flow<List<Disease>> = dao.observeAll()
 
+    /**
+     * A day-rotated window rather than a plain take(limit) — otherwise the home
+     * preview always shows the same alphabetically-first entries forever.
+     */
     fun observePreview(limit: Int): Flow<List<Disease>> =
-        dao.observeAll().map { it.take(limit) }
+        dao.observeAll().map { diseases ->
+            if (diseases.isEmpty() || limit >= diseases.size) {
+                diseases.take(limit)
+            } else {
+                val start = LocalDate.now().dayOfYear % diseases.size
+                (0 until limit).map { diseases[(start + it) % diseases.size] }
+            }
+        }
 
     fun observeById(id: String): Flow<Disease?> = dao.observeById(id)
 

@@ -23,10 +23,10 @@ class HomeViewModel(
     val todayTip: StateFlow<DailyTip?> = tipRepository.observeTodayTip()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
 
-    val latestNews: StateFlow<List<NewsArticle>> = newsRepository.observePreview(2)
+    val latestNews: StateFlow<List<NewsArticle>> = newsRepository.observePreview(3)
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
-    val diseasePreview: StateFlow<List<Disease>> = diseaseRepository.observePreview(2)
+    val diseasePreview: StateFlow<List<Disease>> = diseaseRepository.observePreview(3)
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 }
 
