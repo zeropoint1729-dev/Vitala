@@ -2,8 +2,8 @@ package com.faridul.vitala
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Article
@@ -43,7 +43,7 @@ import com.faridul.vitala.ui.theme.VitalaTheme
 import com.faridul.vitala.ui.tips.TipsHistoryScreen
 import kotlinx.coroutines.launch
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
     private val deepLinkRoute = mutableStateOf<String?>(null)
 
     override fun onCreate(savedInstanceState: Bundle?) {
