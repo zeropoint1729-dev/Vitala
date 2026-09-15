@@ -47,6 +47,7 @@
     <string name="tips_reminder_set">Reminder set for %1$s</string>
     <string name="tips_permission_denied">Notification permission denied</string>
     <string name="tips_all_tips">All tips</string>
+    <string name="settings_language_label">App language</string>
 
     <string name="disclaimer_title">Before you begin</string>
     <string name="disclaimer_body">Vitala provides general health information and tips, but it is not a substitute for professional medical advice. Always consult a qualified doctor before making health decisions.</string>

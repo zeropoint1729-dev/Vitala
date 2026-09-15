@@ -47,6 +47,7 @@
     <string name="tips_reminder_set">%1$s এর জন্য রিমাইন্ডার সেট হয়েছে</string>
     <string name="tips_permission_denied">নোটিফিকেশন অনুমতি প্রত্যাখ্যান করা হয়েছে</string>
     <string name="tips_all_tips">সব পরামর্শ</string>
+    <string name="settings_language_label">অ্যাপের ভাষা</string>
 
     <string name="disclaimer_title">শুরু করার আগে</string>
     <string name="disclaimer_body">Vitala সাধারণ স্বাস্থ্য তথ্য ও পরামর্শ দেয়, তবে এটি পেশাদার চিকিৎসা পরামর্শের বিকল্প নয়। যেকোনো স্বাস্থ্য সিদ্ধান্তের আগে সর্বদা একজন যোগ্য চিকিৎসকের সাথে পরামর্শ করুন।</string>

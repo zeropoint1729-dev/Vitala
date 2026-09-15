@@ -4,6 +4,7 @@ import android.Manifest
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -36,6 +37,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.os.LocaleListCompat
 import androidx.navigation.NavController
 import com.faridul.vitala.R
 import com.faridul.vitala.VitalaApplication
@@ -115,6 +117,9 @@ fun TipsHistoryScreen(navController: NavController) {
         )
         Spacer(Modifier.height(16.dp))
 
+        LanguageCard()
+        Spacer(Modifier.height(16.dp))
+
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -175,6 +180,57 @@ fun TipsHistoryScreen(navController: NavController) {
             Spacer(Modifier.height(8.dp))
         }
     }
+}
+
+@Composable
+private fun LanguageCard() {
+    val currentLocales = AppCompatDelegate.getApplicationLocales()
+    val isBengali = !currentLocales.isEmpty && currentLocales[0]?.language == "bn"
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(12.dp))
+            .background(MaterialTheme.colorScheme.surface)
+            .padding(12.dp)
+    ) {
+        Text(
+            text = stringResource(R.string.settings_language_label),
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.primary
+        )
+        Spacer(Modifier.height(8.dp))
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            LanguagePill(
+                label = "English",
+                selected = !isBengali,
+                onClick = {
+                    AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags("en"))
+                }
+            )
+            LanguagePill(
+                label = "বাংলা",
+                selected = isBengali,
+                onClick = {
+                    AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags("bn"))
+                }
+            )
+        }
+    }
+}
+
+@Composable
+private fun LanguagePill(label: String, selected: Boolean, onClick: () -> Unit) {
+    Text(
+        text = label,
+        style = MaterialTheme.typography.labelSmall,
+        color = if (selected) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.onSurface,
+        modifier = Modifier
+            .clip(RoundedCornerShape(20.dp))
+            .background(if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.background)
+            .clickable(onClick = onClick)
+            .padding(horizontal = 14.dp, vertical = 6.dp)
+    )
 }
 
 @Composable
