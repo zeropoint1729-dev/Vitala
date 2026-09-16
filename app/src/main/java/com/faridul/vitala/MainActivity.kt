@@ -10,13 +10,8 @@ import androidx.compose.material.icons.filled.Article
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Lightbulb
 import androidx.compose.material.icons.filled.MenuBook
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -25,14 +20,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.faridul.vitala.ui.components.AnimatedM3BottomBar
+import com.faridul.vitala.ui.components.BottomNavItem
 import com.faridul.vitala.ui.home.HomeScreen
 import com.faridul.vitala.ui.library.DiseaseDetailScreen
 import com.faridul.vitala.ui.library.DiseaseListScreen
@@ -85,13 +80,11 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-private data class BottomDestination(val route: String, val labelRes: Int, val icon: ImageVector)
-
-private val bottomDestinations = listOf(
-    BottomDestination("home", R.string.nav_home, Icons.Filled.Home),
-    BottomDestination("news", R.string.nav_news, Icons.Filled.Article),
-    BottomDestination("library", R.string.nav_library, Icons.Filled.MenuBook),
-    BottomDestination("tips", R.string.nav_tips, Icons.Filled.Lightbulb)
+private val bottomNavItems = listOf(
+    BottomNavItem("home", R.string.nav_home, Icons.Filled.Home),
+    BottomNavItem("news", R.string.nav_news, Icons.Filled.Article),
+    BottomNavItem("library", R.string.nav_library, Icons.Filled.MenuBook),
+    BottomNavItem("tips", R.string.nav_tips, Icons.Filled.Lightbulb)
 )
 
 @Composable
@@ -116,30 +109,17 @@ fun VitalaNavHost(pendingDeepLink: MutableState<String?> = mutableStateOf(null))
             val backStackEntry by navController.currentBackStackEntryAsState()
             val currentRoute = backStackEntry?.destination?.route
 
-            NavigationBar(containerColor = MaterialTheme.colorScheme.surface) {
-                bottomDestinations.forEach { destination ->
-                    val selected = currentRoute != null && currentRoute.startsWith(destination.route)
-                    NavigationBarItem(
-                        selected = selected,
-                        onClick = {
-                            navController.navigate(destination.route) {
-                                popUpTo(navController.graph.startDestinationId) { saveState = true }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                        },
-                        icon = { Icon(destination.icon, contentDescription = stringResource(destination.labelRes)) },
-                        label = { Text(stringResource(destination.labelRes)) },
-                        colors = NavigationBarItemDefaults.colors(
-                            selectedIconColor = MaterialTheme.colorScheme.primary,
-                            selectedTextColor = MaterialTheme.colorScheme.primary,
-                            unselectedIconColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
-                            unselectedTextColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
-                            indicatorColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.12f)
-                        )
-                    )
+            AnimatedM3BottomBar(
+                items = bottomNavItems,
+                currentRoute = currentRoute,
+                onItemSelected = { route ->
+                    navController.navigate(route) {
+                        popUpTo(navController.graph.startDestinationId) { saveState = true }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
                 }
-            }
+            )
         }
     ) { innerPadding ->
         NavHost(
