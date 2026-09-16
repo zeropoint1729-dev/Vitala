@@ -3,7 +3,6 @@ package com.faridul.vitala.ui.news
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -17,7 +16,9 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Article
 import androidx.compose.material.icons.filled.Bookmark
+import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CircularProgressIndicator
@@ -44,6 +45,7 @@ import androidx.navigation.NavController
 import com.faridul.vitala.R
 import com.faridul.vitala.VitalaApplication
 import com.faridul.vitala.data.model.NewsArticle
+import com.faridul.vitala.ui.components.AnimatedInfoCard
 import kotlinx.coroutines.launch
 
 @Composable
@@ -203,47 +205,23 @@ private fun NewsRow(article: NewsArticle, onClick: () -> Unit) {
     val isJournal = article.category == "journal"
     val accent = if (isJournal) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary
     val categoryLabel = if (isJournal) stringResource(R.string.category_journal) else stringResource(R.string.category_news)
+    val thumbnailIcon = if (isJournal) Icons.Filled.Description else Icons.Filled.Article
 
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(12.dp))
-            .background(MaterialTheme.colorScheme.surface)
-            .clickable(onClick = onClick)
-            .padding(12.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Box(
-            modifier = Modifier
-                .size(48.dp)
-                .clip(RoundedCornerShape(8.dp))
-                .background(accent.copy(alpha = 0.18f))
-        )
-        Spacer(Modifier.width(10.dp))
-        Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = categoryLabel,
-                style = MaterialTheme.typography.labelSmall,
-                color = accent
-            )
-            Text(
-                text = article.title,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-            Text(
-                text = article.source,
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
-            )
-        }
-        if (article.isBookmarked) {
-            Icon(
-                imageVector = Icons.Filled.Bookmark,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.size(16.dp)
-            )
-        }
-    }
+    AnimatedInfoCard(
+        title = article.title,
+        subtitle = "$categoryLabel · ${article.source}",
+        icon = thumbnailIcon,
+        iconTint = accent,
+        onClick = onClick,
+        trailing = if (article.isBookmarked) {
+            {
+                Icon(
+                    imageVector = Icons.Filled.Bookmark,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(16.dp)
+                )
+            }
+        } else null
+    )
 }

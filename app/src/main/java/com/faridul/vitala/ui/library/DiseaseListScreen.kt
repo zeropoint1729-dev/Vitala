@@ -40,6 +40,7 @@ import androidx.navigation.NavController
 import com.faridul.vitala.R
 import com.faridul.vitala.VitalaApplication
 import com.faridul.vitala.data.model.Disease
+import com.faridul.vitala.ui.components.AnimatedInfoCard
 
 @Composable
 fun DiseaseListScreen(navController: NavController) {
@@ -135,33 +136,11 @@ private fun FilterPill(label: String, selected: Boolean, onClick: () -> Unit) {
 
 @Composable
 private fun DiseaseRow(disease: Disease, onClick: () -> Unit) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(12.dp))
-            .background(MaterialTheme.colorScheme.surface)
-            .clickable(onClick = onClick)
-            .padding(12.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Icon(
-            imageVector = Icons.Filled.WaterDrop,
-            contentDescription = null,
-            tint = MaterialTheme.colorScheme.secondary,
-            modifier = Modifier.size(18.dp)
-        )
-        Spacer(Modifier.width(10.dp))
-        Column {
-            Text(
-                text = disease.name,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-            Text(
-                text = disease.category,
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
-            )
-        }
-    }
+    AnimatedInfoCard(
+        title = disease.name,
+        subtitle = disease.category,
+        icon = Icons.Filled.WaterDrop,
+        iconTint = MaterialTheme.colorScheme.secondary,
+        onClick = onClick
+    )
 }

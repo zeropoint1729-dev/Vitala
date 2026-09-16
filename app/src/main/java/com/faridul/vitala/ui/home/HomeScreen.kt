@@ -1,7 +1,6 @@
 package com.faridul.vitala.ui.home
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,7 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
@@ -24,8 +22,6 @@ import androidx.compose.material.icons.filled.Lightbulb
 import androidx.compose.material.icons.filled.NotificationsActive
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.WaterDrop
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -49,8 +45,9 @@ import androidx.navigation.NavController
 import com.faridul.vitala.R
 import com.faridul.vitala.VitalaApplication
 import com.faridul.vitala.data.model.DailyTip
-import com.faridul.vitala.data.model.Disease
 import com.faridul.vitala.data.model.NewsArticle
+import com.faridul.vitala.ui.components.AnimatedCard
+import com.faridul.vitala.ui.components.AnimatedInfoCard
 import com.faridul.vitala.ui.components.SectionHeader
 import java.time.LocalTime
 
@@ -133,8 +130,8 @@ fun HomeScreen(navController: NavController) {
             )
             Spacer(Modifier.height(8.dp))
             news.forEach { article ->
-                NewsPreviewRow(article, onClick = { navController.navigate("news/${article.id}") })
-                Spacer(Modifier.height(8.dp))
+                NewsPreviewCard(article, onClick = { navController.navigate("news/${article.id}") })
+                Spacer(Modifier.height(10.dp))
             }
             Spacer(Modifier.height(12.dp))
 
@@ -145,8 +142,14 @@ fun HomeScreen(navController: NavController) {
             )
             Spacer(Modifier.height(8.dp))
             diseases.forEach { disease ->
-                DiseasePreviewRow(disease, onClick = { navController.navigate("library/${disease.id}") })
-                Spacer(Modifier.height(8.dp))
+                AnimatedInfoCard(
+                    title = disease.name,
+                    subtitle = disease.category,
+                    icon = Icons.Filled.WaterDrop,
+                    iconTint = MaterialTheme.colorScheme.secondary,
+                    onClick = { navController.navigate("library/${disease.id}") }
+                )
+                Spacer(Modifier.height(10.dp))
             }
             Spacer(Modifier.height(24.dp))
         }
@@ -165,12 +168,8 @@ private fun greetingText(): String {
 
 @Composable
 private fun TipCard(tip: DailyTip?) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
-    ) {
-        Column(modifier = Modifier.padding(12.dp)) {
+    AnimatedCard(modifier = Modifier.fillMaxWidth()) {
+        Column(modifier = Modifier.padding(16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
                     imageVector = Icons.Filled.Lightbulb,
@@ -211,98 +210,17 @@ private fun TipCard(tip: DailyTip?) {
 }
 
 @Composable
-private fun NewsPreviewRow(article: NewsArticle, onClick: () -> Unit) {
+private fun NewsPreviewCard(article: NewsArticle, onClick: () -> Unit) {
     val isJournal = article.category == "journal"
     val accent = if (isJournal) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary
     val categoryLabel = if (isJournal) stringResource(R.string.category_journal) else stringResource(R.string.category_news)
     val thumbnailIcon = if (isJournal) Icons.Filled.Description else Icons.Filled.Article
 
-    Card(
-        onClick = onClick,
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
-    ) {
-        Row(
-            modifier = Modifier.padding(12.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Box(
-                modifier = Modifier
-                    .size(44.dp)
-                    .clip(RoundedCornerShape(8.dp))
-                    .background(accent.copy(alpha = 0.18f)),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    imageVector = thumbnailIcon,
-                    contentDescription = null,
-                    tint = accent,
-                    modifier = Modifier.size(20.dp)
-                )
-            }
-            Spacer(Modifier.width(10.dp))
-            Column {
-                Text(
-                    text = categoryLabel,
-                    style = MaterialTheme.typography.labelSmall,
-                    color = accent
-                )
-                Text(
-                    text = article.title,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    maxLines = 2
-                )
-                Text(
-                    text = article.source,
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun DiseasePreviewRow(disease: Disease, onClick: () -> Unit) {
-    Card(
-        onClick = onClick,
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
-    ) {
-        Row(
-            modifier = Modifier.padding(12.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Box(
-                modifier = Modifier
-                    .size(40.dp)
-                    .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.secondary.copy(alpha = 0.18f)),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.WaterDrop,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.secondary,
-                    modifier = Modifier.size(18.dp)
-                )
-            }
-            Spacer(Modifier.width(10.dp))
-            Column {
-                Text(
-                    text = disease.name,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-                Text(
-                    text = disease.category,
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
-                )
-            }
-        }
-    }
+    AnimatedInfoCard(
+        title = article.title,
+        subtitle = "$categoryLabel · ${article.source}",
+        icon = thumbnailIcon,
+        iconTint = accent,
+        onClick = onClick
+    )
 }
